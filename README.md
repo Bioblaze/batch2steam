@@ -18,9 +18,10 @@ This action connects to the Steam partner network, generates individual depot VD
 - `shared_secret`: The shared secret for Steam's two-factor authentication. This is used to generate a time-based one-time password.
 - `appId`: The unique identifier for your application within Steam's partner network.
 - `rootPath`: The root path where all depot content is located.
+- `baseDesc`: This is a Description that will be added in the Default Description for the Build
 - `entries`: A **JSON array** of entry objects containing:
   - `depotID`: The ID of the Steam depot.
-  - `buildDescription`: A short description of the specific depot build.
+  - `buildDescription`: Echoed in Debug
   - `depotPath`: The subdirectory within `rootPath` where the depot's files are stored.
 
 ### Example entries input:

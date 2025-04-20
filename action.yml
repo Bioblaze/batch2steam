@@ -20,6 +20,9 @@ inputs:
   rootPath:
     required: true
     description: 'The root path to your builds. This is the base from which depots will search your files.'
+  baseDesc:
+    required: true
+    description: 'This is a base Description added too the Push'
   appId:
     required: true
     default: ''
@@ -42,3 +45,4 @@ runs:
     appId: ${{ inputs.appId }}
     rootPath: ${{ inputs.rootPath }}
     entries: ${{ inputs.entries }}
+    baseDesc: ${{ inputs.baseDesc }}

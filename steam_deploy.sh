@@ -9,6 +9,7 @@ contentroot=$(pwd)/${rootPath:-.}
 buildOutputDir=$(pwd)/BuildOutput
 appId=${appId:-1000}
 entries=${entries:-"[]"}
+baseDesc=${baseDesc:-""}
 
 # Ensure the build output directory exists
 mkdir -p "$buildOutputDir"
@@ -26,6 +27,7 @@ for entry in $entries_parsed; do
 
   depotVdfPath="depot_build_${depotId}.vdf"
   echo "Generating $depotVdfPath for depot $depotId..."
+  echo "\t$buildDescription"
 
   cat > "$depotVdfPath" <<EOF
 "DepotBuild"
@@ -53,10 +55,10 @@ cat > "$vdfFilePath" <<EOF
 "AppBuild"
 {
     "AppID" "$appId"
-    "Desc" "Batch Build - $(date +'%Y-%m-%d %H:%M:%S')"
+    "Desc" "Batch Build - $baseDesc - $(date +'%Y-%m-%d %H:%M:%S')"
     "BuildOutput" "$buildOutputDir"
     "ContentRoot" "$contentroot"
-    "SetLive" "default"
+    "SetLive" ""
     "Depots"
     {
 $(echo -e "$depot_section")
