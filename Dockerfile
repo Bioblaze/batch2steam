@@ -21,6 +21,9 @@ LABEL "com.github.actions.color"="blue"
 # Set the working directory to /root
 WORKDIR /root/
 
+RUN apt-get update && \
+    apt-get install -y jq
+
 # Copy the required files into the container
 COPY steam_deploy.sh .
 COPY get_totp.js .
