@@ -48,6 +48,7 @@ These are internally used and set from your inputs:
 - `appId`
 - `rootPath`
 - `entries`
+- `baseDesc`
 
 ## Usage
 
@@ -73,6 +74,7 @@ jobs:
         shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
         appId: '123456'
         rootPath: './build'
+        baseDesc: '1.5.12-rc'
         entries: >
           [
             { "depotID": "123457", "buildDescription": "Windows 64-bit build", "depotPath": "windows" },
