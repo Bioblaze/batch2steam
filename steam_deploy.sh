@@ -4,6 +4,7 @@ IFS=$'\n\t'
 
 # Define paths and inputs
 steamdir=${STEAM_HOME:-$HOME/Steam}
+steamdir_logs=${STEAM_HOME:-$HOME/.local/share/Steam}
 contentroot=$(pwd)/${rootPath:-.}
 buildOutputDir=$(pwd)/BuildOutput
 appId=${appId:-1000}
@@ -40,14 +41,15 @@ for entry in $entries_parsed; do
 }
 EOF
 
-  depot_section+="\"$depotId\" \"$depotVdfPath\"\n"
+  depot_section="${depot_section}        \"$depotId\" \"$(pwd)/$depotVdfPath\"\n"
 done
 
 echo "#################################"
 echo "#     Generating App VDF        #"
 echo "#################################"
 
-vdfFilePath="app_build.vdf"
+vdfFilePath="$(pwd)/app_build.vdf"
+
 cat > "$vdfFilePath" <<EOF
 "AppBuild"
 {
@@ -133,6 +135,12 @@ else
   exit 1
 fi
 
+if [ ! -f "$vdfFilePath" ]; then
+  echo "ERROR: App build VDF not found at $vdfFilePath"
+  ls -alh "$(dirname "$vdfFilePath")"
+  exit 1
+fi
+
 # Upload build
 echo "#################################"
 echo "#        Uploading build        #"
@@ -146,18 +154,18 @@ if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit; then
 
   ls -alh || true
   ls -alh "$rootPath" || true
-  ls -Ralph "$steamdir/logs/" || true
+  ls -Ralph "$steamdir_logs/logs/" || true
 
-  for f in "$steamdir"/logs/*; do
+  for f in "$steamdir_logs"/logs/*; do
     echo "######## $f"
     cat "$f" || true
     echo
   done
 
   echo "Displaying error log"
-  cat "$steamdir/logs/stderr.txt" || true
+  cat "$steamdir_logs/logs/stderr.txt" || true
   echo "Displaying bootstrapper log"
-  cat "$steamdir/logs/bootstrap_log.txt" || true
+  cat "$steamdir_logs/logs/bootstrap_log.txt" || true
   echo "#################################"
   echo "#          Build Logs           #"
   echo "#################################"
