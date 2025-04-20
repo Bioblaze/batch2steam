@@ -147,7 +147,8 @@ echo "#################################"
 echo "#        Uploading build        #"
 echo "#################################"
 
-if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit; then
+build_output=$(mktemp)
+if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit | tee "$build_output"; then
   echo "Errors during build upload"
   echo "#################################"
   echo "#             Logs              #"
@@ -176,5 +177,16 @@ if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit; then
     cat "$f" || true
     echo
   done
+  exit 1
+fi
+
+# Extract BuildID from output
+build_id=$(grep -oE 'BuildID [0-9]+' "$build_output" | grep -oE '[0-9]+' | head -n1)
+
+if [[ -n "$build_id" ]]; then
+  echo "Detected BuildID: $build_id"
+  echo "build_id=$build_id" >> "$GITHUB_OUTPUT"
+else
+  echo "Failed to detect BuildID from SteamCMD output."
   exit 1
 fi

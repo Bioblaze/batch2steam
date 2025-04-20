@@ -36,7 +36,7 @@ This action connects to the Steam partner network, generates individual depot VD
 
 ## Outputs
 
-- `manifest`: The path to the generated `app_build.vdf` manifest file used in the Steam upload process.
+- `build_id`: The unique build ID returned after a successful upload to Steam.
 
 ## Environment Variables
 

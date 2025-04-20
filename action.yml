@@ -32,8 +32,8 @@ inputs:
     description: 'An array of entries containing depotID, buildDescription, and depotPath.'
 
 outputs:
-  manifest:
-    description: "The path to the generated manifest.vdf"
+  build_id:
+    description: 'The unique build ID returned after a successful upload to Steam.'
 
 runs:
   using: "docker"
