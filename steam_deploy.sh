@@ -28,20 +28,19 @@ for entry in $entries_parsed; do
   echo "Generating $depotVdfPath for depot $depotId..."
 
   cat > "$depotVdfPath" <<EOF
-"DepotBuildConfig"
+"DepotBuild"
 {
     "DepotID" "$depotId"
-    "ContentRoot" "$contentroot/$depotPath"
     "FileMapping"
     {
-        "LocalPath" "*"
+        "LocalPath" "$depotPath/*"
         "DepotPath" "."
         "recursive" "1"
     }
 }
 EOF
-
-  depot_section="${depot_section}        \"$depotId\" \"$(pwd)/$depotVdfPath\"\n"
+  cat "$depotVdfPath"
+  depot_section="${depot_section}        \"$depotId\" \"$depotVdfPath\"\n"
 done
 
 echo "#################################"
