@@ -1,0 +1,44 @@
+name: 'Batch2Steam'
+author: Randolph William Aarseth II <randolph@divine.games>
+description: 'Batch upload multiple depots to Steam using the SteamSDK.'
+branding:
+  icon: 'briefcase'
+  color: 'green'
+
+inputs:
+  username:
+    required: true
+    default: ''
+    description: 'The username of your builder account.'
+  password:
+    required: true
+    default: ''
+    description: 'The password of your builder account.'
+  shared_secret:
+    required: true
+    description: 'The STEAM_SHARED_SECRET to use for login.'
+  rootPath:
+    required: true
+    description: 'The root path to your builds. This is the base from which depots will search your files.'
+  appId:
+    required: true
+    default: ''
+    description: 'The app ID within the Steam partner network.'
+  entries:
+    required: true
+    description: 'An array of entries containing depotID, buildDescription, and depotPath.'
+
+outputs:
+  manifest:
+    description: "The path to the generated manifest.vdf"
+
+runs:
+  using: "docker"
+  image: Dockerfile
+  env:
+    steam_username: ${{ inputs.username }}
+    steam_password: ${{ inputs.password }}
+    steam_shared_secret: ${{ inputs.shared_secret }}
+    appId: ${{ inputs.appId }}
+    rootPath: ${{ inputs.rootPath }}
+    entries: ${{ inputs.entries }}
